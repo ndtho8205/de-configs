@@ -10,29 +10,29 @@ super + r
 
 # power menu
 super + shift + p
-  ~/.config/sxhkd/power
+  power
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd; \
-  dunstify "sxhkd config reloaded"
+  notify-send "sxhkd config reloaded"
 
 # screen/window/selection shot
 @Print
-  ~/.config/sxhkd/screenshot screen
+  screenshot screen
 
 ctrl + @Print
-  ~/.config/sxhkd/screenshot window
+  screenshot window
 
 shift + @Print
-  ~/.config/sxhkd/screenshot selection
+  screenshot selection
 
 # music controls
 XF86AudioLowerVolume
-  amixer --quiet sset Master 3dB- unmute
+  amixer --quiet sset Master 3%- unmute
 
 XF86AudioRaiseVolume
-  amixer --quiet sset Master 3dB+ unmute
+  amixer --quiet sset Master 3%+ unmute
 
 XF86AudioMute
   amixer -q sset Master toggle

@@ -126,4 +126,7 @@ install_configs() {
 install_configs
 
 echo ''
+echo "  Please add $DE_CONFIGS/bin to ~/.zshrc or ~/.bashrc."
+
+echo ''
 echo '  All installed!'
