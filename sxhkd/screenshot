@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+mode=$1
+filename="${HOME}/Pictures/Screenshot $(date +"%Y-%m-%d %H:%M:%S").png"
+
+if [[ $mode == "screen" ]]; then
+  maim -u "$filename"
+elif [[ $mode == "window" ]]; then
+  maim -u -i $(xdotool getactivewindow) "$filename"
+elif [[ $mode == "selection" ]]; then
+  maim -u -s "$filename"
+fi
+
+notify-send "Screenshot saved"

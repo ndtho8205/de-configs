@@ -1,0 +1,48 @@
+window:
+  dimensions:
+    columns: 120
+    lines: 30
+  padding:
+    x: 2
+    y: 2
+
+font:
+  size: 7.0
+  normal:
+    family: JetBrainsMono Nerd Font
+    style: Regular
+  bold:
+    family: JetBrainsMono Nerd Font
+    style: Bold
+  italic:
+    family: JetBrainsMono Nerd Font
+    style: Italic
+
+selection:
+  save_to_clipboard: true
+
+background_opacity: 0.9
+
+# Colors (Ayu Dark)
+colors:
+  primary:
+    background: '#0A0E14'
+    foreground: '#B3B1AD'
+  normal:
+    black: '#01060E'
+    red: '#EA6C73'
+    green: '#91B362'
+    yellow: '#F9AF4F'
+    blue: '#53BDFA'
+    magenta: '#FAE994'
+    cyan: '#90E1C6'
+    white: '#C7C7C7'
+  bright:
+    black: '#686868'
+    red: '#F07178'
+    green: '#C2D94C'
+    yellow: '#FFB454'
+    blue: '#59C2FF'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'

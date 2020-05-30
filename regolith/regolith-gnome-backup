@@ -1,0 +1,9 @@
+# The following settings were changed by Regolith when configuring your system. Execute this file or run the commands manually to restore them.
+gsettings set org.gnome.desktop.background show-desktop-icons true
+gsettings set org.gnome.gnome-flashback desktop-background false
+gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Alt>z']"
+gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Shift><Alt>z']"
+gsettings set org.gnome.desktop.background picture-uri "'file:///home/ndtho8205/Pictures/smoke_purple_shroud_122028_1920x1080.jpg'"
+gsettings set org.gnome.desktop.interface gtk-theme 'Flat-Remix-GTK-Yellow-Darkest-NoBorder'
+gsettings set org.gnome.desktop.wm.preferences theme 'Adwaita'
+gsettings set org.gnome.desktop.interface icon-theme 'Suru++'
