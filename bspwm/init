@@ -1,0 +1,30 @@
+#!/bin/bash
+
+export DE_CONFIGS_DIR="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)/../"
+
+export PATH="$DE_CONFIGS_DIR/bin:$PATH"
+
+#
+# Environment variables
+#
+
+export DE_TERM_EMULATOR="alacritty"
+export DE_LAUNCHER="rofi -show drun"
+export DE_BROWSER="google-chrome"
+
+export DE_WALLPAPERS="$DE_CONFIGS_DIR/wallpapers"
+
+#
+# Icons
+#
+
+export DE_ICON_VOLUME=""
+export DE_ICON_MUTE=""
+export DE_ICON_CLOCK=""
+export DE_ICON_CALENDAR=""
+export DE_ICON_VPN=""
+export DE_ICON_BATTERY=""
+export DE_ICON_ADAPTER=""

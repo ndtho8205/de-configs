@@ -3,11 +3,13 @@ window:
     columns: 120
     lines: 30
   padding:
-    x: 2
-    y: 2
+    x: 9
+    y: 3
 
 font:
-  size: 7.0
+  size: 6.0
+  offset:
+    y: 2
   normal:
     family: JetBrainsMono Nerd Font
     style: Regular
@@ -21,7 +23,7 @@ font:
 selection:
   save_to_clipboard: true
 
-background_opacity: 0.9
+# background_opacity: 0.9
 
 # Colors (Ayu Dark)
 colors:
