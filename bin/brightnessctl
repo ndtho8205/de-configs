@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
+
+print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Options:
+  --inc          Increase brightness by 5%
+  --dec          Decrease brightness by 5%
+  --notify       Send notification
+  --stdout       Print current brightness level
+  -h, --help     Show this help and exit
+EOF
+}
+
+parse_params() {
+  if [[ $# -eq 0 ]]; then
+    echo "No option specified."
+    exit 1
+  fi
+
+  local param
+  action='' notify=false stdout=false
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    --inc)
+      action=inc
+      ;;
+    --dec)
+      action=dec
+      ;;
+    --notify)
+      notify=true
+      ;;
+    --stdout)
+      stdout=true
+      ;;
+    -h | --help)
+      print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+get_brightness() {
+  local brightness
+  brightness=$(xbacklight -get | awk -F. '{print $1}')
+
+  echo "$brightness"
+}
+
+send_notification() {
+  notify-send "$(get_brightness)"
+}
+
+handle() {
+  xbacklight -$action 5
+
+  current_brightness=$(get_brightness)
+
+  if [[ $notify == "true" ]]; then
+    notify-send "$current_brightness"
+  fi
+
+  if [[ $stdout == "true" ]]; then
+    echo "$current_brightness"
+  fi
+}
+
+if ! (return 0 2>/dev/null); then
+  parse_params "$@"
+
+  handle
+fi

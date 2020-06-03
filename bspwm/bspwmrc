@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./init
+source ~/.config/bspwm/init
 
 # kill
 killall sxhkd

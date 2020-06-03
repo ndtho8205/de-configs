@@ -1,0 +1,103 @@
+#!/usr/bin/bash
+
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
+
+print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Options:
+  --inc          Increase volume by 3%
+  --dec          Decrease volume by 3%
+  --toggle-mute  Toggle mute/unmute
+  --notify       Send notification
+  --stdout       Print current volume level, or -1 if muted
+  -h, --help     Show this help and exit
+EOF
+}
+
+parse_params() {
+  if [[ $# -eq 0 ]]; then
+    echo "No option specified."
+    exit 1
+  fi
+
+  local param
+  action='' notify=false stdout=false
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    --inc)
+      action=+
+      ;;
+    --dec)
+      action=-
+      ;;
+    --toggle-mute)
+      action=mute
+      ;;
+    --notify)
+      notify=true
+      ;;
+    --stdout)
+      stdout=true
+      ;;
+    -h | --help)
+      print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+get_volume() {
+  local mute volume
+
+  mute=$(amixer get Master | tail -1 | awk '{print $6}' | tr -d '[]')
+  if [[ $mute == "off" ]]; then
+    echo -1
+    return
+  fi
+
+  volume=$(amixer get Master | tail -1 | awk '{print $5}' | tr -d '[]' | grep -o "[0-9]*")
+  echo "$volume"
+}
+
+handle() {
+  if [[ $action == "mute" ]]; then
+    amixer -q sset Master toggle
+  else
+    amixer --quiet sset Master 3%$action unmute
+  fi
+
+  if [[ $notify == "false" && $stdout == "false" ]]; then
+    exit 0
+  fi
+
+  local current_volume
+  current_volume=$(get_volume)
+
+  if [[ $notify == "true" ]]; then
+    notify-send "${current_volume/-1/Muted}"
+  fi
+
+  if [[ $stdout == "true" ]]; then
+    echo "$current_volume"
+  fi
+}
+
+if ! (return 0 2>/dev/null); then
+  parse_params "$@"
+
+  handle
+fi

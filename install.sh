@@ -122,6 +122,7 @@ install_configs() {
   make_link "$DE_CONFIGS/dunst" "$HOME/.config/dunst"
   make_link "$DE_CONFIGS/alacritty" "$HOME/.config/alacritty"
   make_link "$DE_CONFIGS/wallpapers" "$HOME/Pictures/wallpapers"
+  make_link "$DE_CONFIGS/ranger" "$HOME/.config/ranger"
 }
 
 install_configs
