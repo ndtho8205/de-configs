@@ -68,7 +68,9 @@ send_notification() {
 }
 
 handle() {
-  xbacklight -$action 5
+  if [[ -n $action ]]; then
+    xbacklight -$action 5
+  fi
 
   current_brightness=$(get_brightness)
 

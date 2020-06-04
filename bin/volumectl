@@ -10,8 +10,8 @@ print_usage() {
 usage: $(basename "$0") [OPTION]
 
 Options:
-  --inc          Increase volume by 3%
-  --dec          Decrease volume by 3%
+  --inc          Increase volume by 5%
+  --dec          Decrease volume by 5%
   --toggle-mute  Toggle mute/unmute
   --notify       Send notification
   --stdout       Print current volume level, or -1 if muted
@@ -76,8 +76,8 @@ get_volume() {
 handle() {
   if [[ $action == "mute" ]]; then
     amixer -q sset Master toggle
-  else
-    amixer --quiet sset Master 3%$action unmute
+  elif [[ -n $action ]]; then
+    amixer --quiet sset Master 5%$action unmute
   fi
 
   if [[ $notify == "false" && $stdout == "false" ]]; then
