@@ -22,6 +22,8 @@ EOF
 parse_params() {
   if [[ $# -eq 0 ]]; then
     echo "No option specified."
+    echo
+    print_usage
     exit 1
   fi
 
