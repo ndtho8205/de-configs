@@ -75,6 +75,30 @@ get_volume() {
   echo "$volume"
 }
 
+send_notification() {
+  local volume
+  volume=$(get_volume)
+  ID=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+  if [[ $action == "dec" ]]; then
+    ICON=ﱜ
+  elif [[ $action == "inc" ]]; then
+    ICON=ﱛ
+  elif [[ $volume == "-1" ]]; then
+    ICON=ﱝ
+  else
+    ICON=墳
+  fi
+
+  dunstify \
+    --appname="ctl" \
+    --urgency="low" \
+    --icon="$ICON" \
+    --replace="$ID" \
+    "Volume" \
+    "$volume"
+
+}
+
 handle() {
   if [[ $action == "mute" ]]; then
     amixer -q sset Master toggle
@@ -86,13 +110,12 @@ handle() {
     exit 0
   fi
 
-  local current_volume
-  current_volume=$(get_volume)
-
   if [[ $notify == "true" ]]; then
-    notify-send "${current_volume/-1/Muted}"
+    send_notification
   fi
 
+  local current_volume
+  current_volume=$(get_volume)
   if [[ $stdout == "true" ]]; then
     echo "$current_volume"
   fi

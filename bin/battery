@@ -10,10 +10,11 @@ print_usage() {
 usage: $(basename "$0") [OPTION]
 
 Options:
-  --inc          Increase brightness by 5%
-  --dec          Decrease brightness by 5%
+  --status       discharging/charging/full
+  --percentage   Current battery percentage
+  --remaining    Remaining time (hh:mm:ss)
   --notify       Send notification
-  --stdout       Print current brightness level
+  --stdout       Print current brightnes level
   -h, --help     Show this help and exit
 EOF
 }
@@ -21,8 +22,6 @@ EOF
 parse_params() {
   if [[ $# -eq 0 ]]; then
     echo "No option specified."
-    echo
-    print_usage
     exit 1
   fi
 
@@ -58,30 +57,17 @@ parse_params() {
   done
 }
 
-get_brightness() {
-  local brightness
-  brightness=$(xbacklight -get | awk -F. '{print $1}')
+get_status() {
+  status=$(acpi --battery | awk -F. '{print $1}')
+  # Battery 0: Discharging, 99%, 05:29:51 remaining
+  # Battery 0: Charging, 91%, 00:13:43 until charged
+  # Battery 0: Full, 100%
 
-  echo "$brightness"
+  echo "$status"
 }
 
 send_notification() {
-  ID=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
-  if [[ $action == "dec" ]]; then
-    ICON=
-  elif [[ $action == "inc" ]]; then
-    ICON=
-  else
-    ICON=
-  fi
-
-  dunstify \
-    --appname="ctl" \
-    --urgency="low" \
-    --icon="$ICON" \
-    --replace="$ID" \
-    "Brightness" \
-    "$(get_brightness)"
+  notify-send "$(get_brightness)"
 }
 
 handle() {
@@ -89,12 +75,13 @@ handle() {
     xbacklight -$action 5
   fi
 
+  current_brightness=$(get_brightness)
+
   if [[ $notify == "true" ]]; then
-    send_notification
+    notify-send "$current_brightness"
   fi
 
   if [[ $stdout == "true" ]]; then
-    current_brightness=$(get_brightness)
     echo "$current_brightness"
   fi
 }
