@@ -78,13 +78,14 @@ get_volume() {
 send_notification() {
   local volume
   volume=$(get_volume)
+  echo "$volume"
   ID=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
-  if [[ $action == "dec" ]]; then
+  if [[ $action == "-" ]]; then
     ICON=ﱜ
-  elif [[ $action == "inc" ]]; then
+  elif [[ $action == "+" ]]; then
     ICON=ﱛ
   elif [[ $volume == "-1" ]]; then
-    ICON=ﱝ
+    ICON=婢
   else
     ICON=墳
   fi
@@ -95,7 +96,7 @@ send_notification() {
     --icon="$ICON" \
     --replace="$ID" \
     "Volume" \
-    "$volume"
+    "${volume}"
 
 }
 
