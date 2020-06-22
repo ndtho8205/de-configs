@@ -5,8 +5,8 @@ window:
     columns: 120
     lines: 30
   padding:
-    x: 9
-    y: 3
+    x: 10
+    y: 4
 
 font:
   size: 6.0

@@ -1,0 +1,137 @@
+//----------------------
+// Theme Settings
+//----------------------
+
+//----------------------
+// Colors
+//----------------------
+
+* {
+  foreground:                  #4D5566;
+  background:                  #0A0E14;
+
+  foreground-input:            #B3B1AD;
+  foreground-prompt:           #59C2FF;
+  foreground-selected:         #FF8F40;
+  foreground-message:          @foreground-selected;
+  background-selected:         #151A1E;
+
+  separatorcolor:              #FFB454;
+}
+
+//----------------------
+// Style
+//----------------------
+
+#window {
+  background-color: @background;
+  padding: 36% 40% 40% 40%;
+}
+
+#mainbox {
+  border: 0px;
+  background-color: @background;
+}
+
+#message {
+  padding: 8px;
+  border: 0px;
+  border-color: @separatorcolor;
+  background-color: @background;
+}
+
+#textbox {
+  text-color: @foreground-message;
+  background-color: @background;
+}
+
+#listview {
+  fixed-height: 0;
+  padding: 8px 0px;
+  border: 2px 0px 0px;
+  border-color: @separatorcolor;
+  spacing: 4px;
+  background-color: @background;
+}
+
+#element {
+  border: 0px;
+  padding: 4px;
+  background-color: @background;
+}
+
+#element.normal.normal {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element.normal.urgent {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element.normal.active {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element.selected.normal {
+  text-color: @foreground-selected;
+  background-color: @background-selected;
+}
+
+#element.selected.urgent {
+  text-color: @foreground-selected;
+  background-color: @background-selected;
+}
+
+#element.selected.active {
+  text-color: @foreground-selected;
+  background-color: @background-selected;
+}
+
+#element.alternate.normal {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element.alternate.urgent {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element.alternate.active {
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#element-icon {
+  margin: 0px 8px 0px 0px;
+  size: 16px;
+  text-color: #FFFFFF;
+}
+
+
+#inputbar {
+  border:	0px;
+  padding: 0px 0px 8px 0px;
+  spacing: 4px;
+  text-color: @foreground;
+  background-color: @background;
+}
+
+#case-indicator {
+  background-color: @background;
+}
+
+#entry {
+  spacing: 0;
+  background-color: @background;
+  text-color: @foreground-input;
+}
+
+#prompt {
+  background-color: #00000000;
+  spacing: 0;
+  text-color: @foreground-prompt;
+}
