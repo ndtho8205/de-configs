@@ -5,7 +5,25 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-print_usage() {
+main() {
+  action='' notify=false stdout=false
+
+  _parse_params "$@"
+
+  if [[ -n $action ]]; then
+    xbacklight -$action 5
+  fi
+
+  if [[ $notify == "true" ]]; then
+    _send_notification
+  fi
+
+  if [[ $stdout == "true" ]]; then
+    _get_brightness
+  fi
+}
+
+_print_usage() {
   cat <<EOF
 usage: $(basename "$0") [OPTION]
 
@@ -18,16 +36,15 @@ Options:
 EOF
 }
 
-parse_params() {
+_parse_params() {
   if [[ $# -eq 0 ]]; then
     echo "No option specified."
     echo
-    print_usage
+    _print_usage
     exit 1
   fi
 
   local param
-  action='' notify=false stdout=false
 
   while [[ $# -gt 0 ]]; do
     param="$1"
@@ -47,7 +64,7 @@ parse_params() {
       stdout=true
       ;;
     -h | --help)
-      print_usage
+      _print_usage
       exit 0
       ;;
     *)
@@ -58,49 +75,31 @@ parse_params() {
   done
 }
 
-get_brightness() {
-  local brightness
-  brightness=$(xbacklight -get | awk -F. '{print $1}')
-
-  echo "$brightness"
+_get_brightness() {
+  xbacklight -get | awk -F. '{print $1}'
 }
 
-send_notification() {
-  ID=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+_send_notification() {
+  local appname notification_id notification_icon
+
+  appname=$(basename "$0")
+  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+
   if [[ $action == "dec" ]]; then
-    ICON=
+    notification_icon=
   elif [[ $action == "inc" ]]; then
-    ICON=
+    notification_icon=
   else
-    ICON=
+    notification_icon=
   fi
 
   dunstify \
-    --appname="ctl" \
+    --appname="$appname" \
     --urgency="low" \
-    --icon="$ICON" \
-    --replace="$ID" \
+    --icon="$notification_icon" \
+    --replace="$notification_id" \
     "Brightness" \
-    "$(get_brightness)"
+    "$(_get_brightness)"
 }
 
-handle() {
-  if [[ -n $action ]]; then
-    xbacklight -$action 5
-  fi
-
-  if [[ $notify == "true" ]]; then
-    send_notification
-  fi
-
-  if [[ $stdout == "true" ]]; then
-    current_brightness=$(get_brightness)
-    echo "$current_brightness"
-  fi
-}
-
-if ! (return 0 2>/dev/null); then
-  parse_params "$@"
-
-  handle
-fi
+main "$@"

@@ -5,7 +5,28 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-print_usage() {
+main() {
+  action='' notify=false stdout=false
+
+  _parse_params "$@"
+
+  if [[ $action == "mute" ]]; then
+    amixer -q sset Master toggle
+  elif [[ -n $action ]]; then
+    amixer --quiet sset Master 5%$action unmute
+  fi
+
+  if [[ $notify == "true" ]]; then
+    _send_notification
+  fi
+
+  if [[ $stdout == "true" ]]; then
+    _get_volume
+  fi
+
+}
+
+_print_usage() {
   cat <<EOF
 usage: $(basename "$0") [OPTION]
 
@@ -19,16 +40,15 @@ Options:
 EOF
 }
 
-parse_params() {
+_parse_params() {
   if [[ $# -eq 0 ]]; then
     echo "No option specified."
     echo
-    print_usage
+    _print_usage
     exit 1
   fi
 
   local param
-  action='' notify=false stdout=false
 
   while [[ $# -gt 0 ]]; do
     param="$1"
@@ -51,7 +71,7 @@ parse_params() {
       stdout=true
       ;;
     -h | --help)
-      print_usage
+      _print_usage
       exit 0
       ;;
     *)
@@ -62,7 +82,7 @@ parse_params() {
   done
 }
 
-get_volume() {
+_get_volume() {
   local mute volume
 
   mute=$(amixer get Master | tail -1 | awk '{print $6}' | tr -d '[]')
@@ -72,58 +92,35 @@ get_volume() {
   fi
 
   volume=$(amixer get Master | tail -1 | awk '{print $5}' | tr -d '[]' | grep -o "[0-9]*")
+
   echo "$volume"
 }
 
-send_notification() {
-  local volume
-  volume=$(get_volume)
-  echo "$volume"
-  ID=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+_send_notification() {
+  local appname notification_id notification_icon volume
+
+  appname=$(basename "$0")
+  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+  volume=$(_get_volume)
+
   if [[ $action == "-" ]]; then
-    ICON=ﱜ
+    notification_icon=ﱜ
   elif [[ $action == "+" ]]; then
-    ICON=ﱛ
+    notification_icon=ﱛ
   elif [[ $volume == "-1" ]]; then
-    ICON=婢
+    notification_icon=婢
   else
-    ICON=墳
+    notification_icon=墳
   fi
 
   dunstify \
-    --appname="ctl" \
+    --appname="$appname" \
     --urgency="low" \
-    --icon="$ICON" \
-    --replace="$ID" \
+    --icon="$notification_icon" \
+    --replace="$notification_id" \
+    -- \
     "Volume" \
-    "${volume}"
-
+    "$volume"
 }
 
-handle() {
-  if [[ $action == "mute" ]]; then
-    amixer -q sset Master toggle
-  elif [[ -n $action ]]; then
-    amixer --quiet sset Master 5%$action unmute
-  fi
-
-  if [[ $notify == "false" && $stdout == "false" ]]; then
-    exit 0
-  fi
-
-  if [[ $notify == "true" ]]; then
-    send_notification
-  fi
-
-  local current_volume
-  current_volume=$(get_volume)
-  if [[ $stdout == "true" ]]; then
-    echo "$current_volume"
-  fi
-}
-
-if ! (return 0 2>/dev/null); then
-  parse_params "$@"
-
-  handle
-fi
+main "$@"

@@ -30,13 +30,13 @@ super + q
 #
 
 @Print
-  screenshot screen
+  screenshot --desktop --clipboard --notify
 
 ctrl + @Print
-  screenshot window
+  screenshot --window --clipboard --notify
 
 shift + @Print
-  screenshot selection
+  screenshot --selection --clipboard --notify
 
 #
 # Music controls

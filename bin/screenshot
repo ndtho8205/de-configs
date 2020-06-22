@@ -1,14 +1,121 @@
 #!/usr/bin/env bash
 
-mode=$1
-filename="${HOME}/Pictures/Screenshot $(date +"%Y-%m-%d %H:%M:%S").png"
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
 
-if [[ $mode == "screen" ]]; then
-  maim -u "$filename"
-elif [[ $mode == "window" ]]; then
-  maim -u -i $(xdotool getactivewindow) "$filename"
-elif [[ $mode == "selection" ]]; then
-  maim -u -s "$filename"
-fi
+main() {
+  mode='' clipboard=false notify=false stdout=false
 
-notify-send "Screenshot saved"
+  _parse_params "$@"
+
+  filepath="${HOME}/Pictures/Screenshot_$(date +%F-%T).png"
+  case $mode in
+  desktop)
+    _take_screenshot "$filepath"
+    ;;
+  window)
+    _take_screenshot --window "$(xdotool getactivewindow)" "$filepath"
+    ;;
+  selection)
+    _take_screenshot --select "$filepath"
+    ;;
+  esac
+
+  if [[ $clipboard == "true" ]]; then
+    xclip -selection clipboard -t image/png "$filepath"
+  fi
+
+  if [[ $notify == "true" ]]; then
+    _send_notification
+  fi
+
+  if [[ $stdout == "true" ]]; then
+    echo "$filepath"
+  fi
+
+}
+
+_print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Options:
+  --desktop      Full screen
+  --window       Current active window
+  --selection    Select an area before a screenshot is captured
+  --clipboard    Copy captured screenshot to clipboard
+  --notify       Send notification
+  --stdout       Print captured screenshot file path
+  -h, --help     Show this help and exit
+EOF
+}
+
+_parse_params() {
+  if [[ $# -eq 0 ]]; then
+    echo "No option specified."
+    echo
+    _print_usage
+    exit 1
+  fi
+
+  local param
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    --desktop)
+      mode=desktop
+      ;;
+    --window)
+      mode=window
+      ;;
+    --selection)
+      mode=selection
+      ;;
+    --clipboard)
+      clipboard=true
+      ;;
+    --notify)
+      notify=true
+      ;;
+    --stdout)
+      stdout=true
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+_take_screenshot() {
+  maim \
+    --hidecursor \
+    --quality 10 \
+    "$@"
+}
+
+_send_notification() {
+  local appname notification_icon
+
+  appname=$(basename "$0")
+  notification_icon=''
+
+  dunstify \
+    --appname="$appname" \
+    --urgency="low" \
+    --icon="$notification_icon" \
+    "Screenshot" \
+    "Screenshot saved!"
+}
+
+main "$@"
