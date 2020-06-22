@@ -82,7 +82,7 @@
   timeout = 0
 
 [brightness_volume_ctl]
-  appname = "ctl"
+  appname = "*ctl"
   urgency = low
   history_ignore = yes
   format = "<span size='xx-large' foreground='#B7472A' rise='-2500'>%I </span><span size='x-large'>%b</span>"
