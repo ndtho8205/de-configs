@@ -1,4 +1,6 @@
-### System hotkeys ###
+#################################
+#    WM Independent Hotkeys     #
+#################################
 
 # terminal emulator
 super + Return
@@ -15,59 +17,37 @@ super + shift + p
 # make sxhkd reload its configuration files:
 super + Escape
   pkill -USR1 -x sxhkd; \
-  notify-send "sxhkd config reloaded"
+  notify-send "sxhkd config reloaded."
 
-#
-# Monitoring
-#
+#################################
+#        System Hotkeys         #
+#################################
 
 # show basic information
 super + q
   notify_info --all
 
-#
-# Screenshot
-#
+# screenshot
+{_,ctrl + ,shift + }@Print
+  screenshot --{desktop,window,selection} --clipboard --notify
 
-@Print
-  screenshot --desktop --clipboard --notify
+# volume controls
+XF86Audio{LowerVolume,RaiseVolume,Mute}
+  volumectl --{dec,inc,toggle-mute} --notify
 
-ctrl + @Print
-  screenshot --window --clipboard --notify
+# brightness controls
+XF86MonBrightness{Down,Up}
+  brightnessctl --{dec,inc} --notify
 
-shift + @Print
-  screenshot --selection --clipboard --notify
-
-#
-# Music controls
-#
-XF86AudioLowerVolume
-  volumectl --dec --notify
-
-XF86AudioRaiseVolume
-  volumectl --inc --notify
-
-XF86AudioMute
-  volumectl --toggle-mute --notify
-
-#
-# Brightness controls
-#
-
-XF86MonBrightnessDown
-  brightnessctl --dec --notify
-
-XF86MonBrightnessUp
-  brightnessctl --inc --notify
-
-
-### BSPWM hotkeys ###
+#################################
+#        BSPWM Hotkeys          #
+#################################
 
 # quit/restart bspwm
 super + alt + {q,r}
   bspc {quit,wm -r}
 
-# close and kill
+# close/kill node
 super + {_,shift + }w
   bspc node -{c,k}
 
