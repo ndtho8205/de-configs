@@ -1,16 +1,34 @@
 #!/usr/bin/env bash
 
-# rofi power menu
-chosen=$(echo -e " Lock\n鈴 Suspend\n漏 Reboot\n襤 Shutdown" | rofi -p power -dmenu -i -lines 4)
-if [[ $chosen == *"Lock"* ]]; then
-  betterlockscreen --lock dimblur
-elif [[ $chosen == *"Suspend"* ]]; then
-  # lock && sleep 1
-  systemctl suspend
-elif [[ $chosen == *"Reboot"* ]]; then
-  # lock && sleep 1
-  systemctl reboot
-elif [[ $chosen == *"Shutdown"* ]]; then
-  # lock && sleep 1
-  systemctl poweroff
-fi
+main() {
+  selection=$(power_menu | rofi -p power -dmenu -i -lines 4)
+
+  case "$selection" in
+    *"Lock"*)
+      # TODO: use light-locker
+      dm-tool lock
+      ;;
+    *"Log"*)
+      loginctl terminate-session "$XDG_SESSION_ID"
+      ;;
+    *"Suspend"*)
+      systemctl suspend
+      ;;
+    *"Reboot"*)
+      systemctl reboot
+      ;;
+    *"Shutdown"*)
+      systemctl poweroff
+      ;;
+  esac
+}
+
+power_menu() {
+  echo -en "Lock screen\\0icon\\x1fsystem-lock-screen-symbolic\\n"
+  echo -en "Log out\\0icon\\x1fsystem-log-out-symbolic\\n"
+  echo -en "Suspend\\0icon\\x1fsystem-suspend-symbolic\\n"
+  echo -en "Reboot\\0icon\\x1fsystem-reboot-symbolic\\n"
+  echo -en "Shutdown\\0icon\\x1fsystem-shutdown-symbolic\\n"
+}
+
+main

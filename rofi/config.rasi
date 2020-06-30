@@ -5,3 +5,5 @@ configuration {
   fullscreen: true;
 	theme: "dark";
 }
+
+/* vim:ft=css

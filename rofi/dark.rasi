@@ -135,3 +135,5 @@
   spacing: 0;
   text-color: @foreground-prompt;
 }
+
+/* vim:ft=css
