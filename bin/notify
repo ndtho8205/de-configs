@@ -5,7 +5,28 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-print_usage() {
+main() {
+  all=false
+
+  _parse_params "$@"
+
+  time=$(date +'%r')
+  date=$(date +'%a, %b %d, %Y')
+  volume=$(volumectl --stdout)
+  brightness=$(brightnessctl --stdout)
+
+  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+
+  output="|  $time |   $date\\n| 墳 $volume |  $brightness"
+
+  dunstify \
+    --appname="notify" \
+    --replace="$notification_id" \
+    -- \
+    "$output"
+}
+
+_print_usage() {
   cat <<EOF
 usage: $(basename "$0") [OPTION]
 
@@ -15,14 +36,13 @@ Options:
 EOF
 }
 
-parse_params() {
+_parse_params() {
   if [[ $# -eq 0 ]]; then
     echo "No option specified."
     exit 1
   fi
 
   local param
-  all=false
 
   while [[ $# -gt 0 ]]; do
     param="$1"
@@ -33,7 +53,7 @@ parse_params() {
       all=true
       ;;
     -h | --help)
-      print_usage
+      _print_usage
       exit 0
       ;;
     *)
@@ -44,19 +64,4 @@ parse_params() {
   done
 }
 
-handle() {
-  time=$(date +'%r')
-  date=$(date +'%a, %b %d, %Y')
-  volume=$(volumectl --stdout)
-  brightness=$(brightnessctl --stdout)
-
-  output="Time: $time  Date: $date  Volume: $volume  Brightness: $brightness"
-
-  notify-send $"$output"
-}
-
-if ! (return 0 2>/dev/null); then
-  parse_params "$@"
-
-  handle
-fi
+main "$@"
