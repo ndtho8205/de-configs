@@ -64,21 +64,21 @@
   context = ctrl+shift+period
 
 [urgency_low]
-  frame_color = "#3B7C87"
-  foreground = "#3B7C87"
-  background = "#191311"
+  frame_color = "#B3B1AD"
+  foreground = "#CBCCC6"
+  background = "#0A0E14"
   timeout = 10
 
 [urgency_normal]
-  frame_color = "#5B8234"
-  foreground = "#5B8234"
-  background = "#191311"
+  frame_color = "#BAE67E"
+  foreground = "#86B300"
+  background = "#0A0E14"
   timeout = 10
 
 [urgency_critical]
-  frame_color = "#B7472A"
-  foreground = "#B7472A"
-  background = "#191311"
+  frame_color = "#F07171"
+  foreground = "#F07178"
+  background = "#0A0E14"
   timeout = 0
 
 [brightness_volume_ctl]
