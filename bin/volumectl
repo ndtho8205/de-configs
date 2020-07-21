@@ -103,15 +103,20 @@ _send_notification() {
   notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
   volume=$(_get_volume)
 
-  if [[ $action == "-" ]]; then
-    notification_icon=ﱜ
-  elif [[ $action == "+" ]]; then
+  case $action in
+  +)
     notification_icon=ﱛ
-  elif [[ $volume == "-1" ]]; then
+    ;;
+  -)
+    notification_icon=ﱜ
+    ;;
+  -1)
     notification_icon=婢
-  else
+    ;;
+  *)
     notification_icon=墳
-  fi
+    ;;
+  esac
 
   dunstify \
     --appname="$appname" \

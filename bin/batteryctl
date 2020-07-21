@@ -6,20 +6,16 @@ set -o nounset
 set -o pipefail
 
 main() {
-  action='' notify=false stdout=false
+  notify=false stdout=false
 
   _parse_params "$@"
-
-  if [[ -n $action ]]; then
-    xbacklight -$action 5
-  fi
 
   if [[ $notify == "true" ]]; then
     _send_notification
   fi
 
   if [[ $stdout == "true" ]]; then
-    _get_brightness
+    _get_battery_info
   fi
 }
 
@@ -28,8 +24,6 @@ _print_usage() {
 usage: $(basename "$0") [OPTION]
 
 Options:
-  --inc          Increase brightness by 5%
-  --dec          Decrease brightness by 5%
   --notify       Send notification
   --stdout       Print current brightness level
   -h, --help     Show this help and exit
@@ -51,12 +45,6 @@ _parse_params() {
     shift
 
     case $param in
-    --inc)
-      action=inc
-      ;;
-    --dec)
-      action=dec
-      ;;
     --notify)
       notify=true
       ;;
@@ -75,8 +63,22 @@ _parse_params() {
   done
 }
 
-_get_brightness() {
-  xbacklight -get | awk -F. '{print $1}'
+_get_battery_info() {
+  percentage=$(acpi -b | awk '{print $4}' | sed 's/,//g')
+  charge_status=$(acpi -b | awk '{print $3}' | sed 's/,//g')
+  time_remaining=$(acpi -b | awk '{print $5}' | sed 's/,//g')
+
+  case $charge_status in
+  Full)
+    echo " $percentage"
+    ;;
+  Charging)
+    echo " $percentage"
+    ;;
+  *)
+    echo " $percentage $time_remaining"
+    ;;
+  esac
 }
 
 _send_notification() {
@@ -85,25 +87,13 @@ _send_notification() {
   appname=$(basename "$0")
   notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
 
-  case $action in
-  inc)
-    notification_icon=
-    ;;
-  dec)
-    notification_icon=
-    ;;
-  *)
-    notification_icon=
-    ;;
-  esac
-
   dunstify \
     --appname="$appname" \
     --urgency="low" \
     --icon="$notification_icon" \
     --replace="$notification_id" \
-    "Brightness" \
-    "$(_get_brightness)"
+    "Battery" \
+    "$(_get_battery_info)"
 }
 
 main "$@"

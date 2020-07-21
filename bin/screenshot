@@ -11,6 +11,7 @@ main() {
   _parse_params "$@"
 
   filepath="${HOME}/Pictures/Screenshot_$(date +%F-%T).png"
+
   case $mode in
   desktop)
     _take_screenshot "$filepath"

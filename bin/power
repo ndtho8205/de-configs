@@ -4,22 +4,22 @@ main() {
   selection=$(power_menu | rofi -p power -dmenu -i -lines 4)
 
   case "$selection" in
-    *"Lock"*)
-      # TODO: use light-locker
-      dm-tool lock
-      ;;
-    *"Log"*)
-      loginctl terminate-session "$XDG_SESSION_ID"
-      ;;
-    *"Suspend"*)
-      systemctl suspend
-      ;;
-    *"Reboot"*)
-      systemctl reboot
-      ;;
-    *"Shutdown"*)
-      systemctl poweroff
-      ;;
+  *"Lock"*)
+    # TODO: use light-locker
+    dm-tool lock
+    ;;
+  *"Log"*)
+    loginctl terminate-session "$XDG_SESSION_ID"
+    ;;
+  *"Suspend"*)
+    systemctl suspend
+    ;;
+  *"Reboot"*)
+    systemctl reboot
+    ;;
+  *"Shutdown"*)
+    systemctl poweroff
+    ;;
   esac
 }
 

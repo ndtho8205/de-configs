@@ -14,10 +14,12 @@ main() {
   date=$(date +'%a, %b %d, %Y')
   volume=$(volumectl --stdout)
   brightness=$(brightnessctl --stdout)
+  battery=$(batteryctl --stdout)
+  vpn=$(protonvpn status | head -n 1 | awk '{print $2}')
 
   notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
 
-  output="|  $time |   $date\\n| 墳 $volume |  $brightness"
+  output="|  $time |   $date\\n| $battery | 墳 $volume |  $brightness\\n| 嬨 $vpn"
 
   dunstify \
     --appname="notify" \
