@@ -10,15 +10,17 @@ main() {
 
   _parse_params "$@"
 
-  time=$(date +'%r')
-  date=$(date +'%a, %b %d, %Y')
-  volume=$(volumectl --stdout)
-  brightness=$(brightnessctl --stdout)
-  battery=$(batteryctl --stdout)
   vpn=$(protonvpn status | head -n 1 | awk '{print $2}')
 
-  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+  battery=$(batteryctl --stdout)
 
+  volume=$(volumectl --stdout)
+  brightness=$(brightnessctl --stdout)
+
+  date=$(date +'%a, %b %d, %Y')
+  time=$(date +'%r')
+
+  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
   output="|  $time |   $date\\n| $battery | 墳 $volume |  $brightness\\n| 嬨 $vpn"
 
   dunstify \
