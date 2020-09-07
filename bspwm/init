@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_FONT_DPI=96
 
 export DE_CONFIGS_DIR="$(
@@ -15,7 +16,7 @@ export PATH="$DE_CONFIGS_DIR/bin:$PATH"
 
 export DE_TERM_EMULATOR="alacritty"
 export TERMINAL="alacritty"
-export DE_BROWSER="google-chrome"
+export DE_BROWSER="$HOME/ProgramFiles/firefox/firefox"
 
 export DE_WALLPAPERS="$DE_CONFIGS_DIR/wallpapers"
 

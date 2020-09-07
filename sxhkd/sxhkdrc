@@ -30,7 +30,7 @@ super + f
   x-terminal-emulator -e ranger
 
 super + c
-  google-chrome
+  $DE_BROWSER
 
 #################################
 #        System Hotkeys         #
