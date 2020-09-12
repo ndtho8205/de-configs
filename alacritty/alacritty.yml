@@ -11,7 +11,7 @@ window:
 font:
   size: 6.0
   offset:
-    y: 2
+    y: 3
   normal:
     family: JetBrainsMono Nerd Font
     style: Regular

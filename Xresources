@@ -1,3 +1,9 @@
+Xft.dpi: 144
+Xft.hinting: true
+Xft.hintstyle: hintfull
+Xft.antialias: true
+Xft.rgba: rgb
+
 xterm*faceName: JetBrainsMono Nerd Font
 xterm*faceSize: 9
 xterm*renderFont: true
