@@ -26,9 +26,6 @@ super + Escape
 #     Application Hotkeys       #
 #################################
 
-super + f
-  x-terminal-emulator -e ranger
-
 super + c
   $DE_BROWSER
 
