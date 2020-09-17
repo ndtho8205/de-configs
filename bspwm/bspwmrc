@@ -10,7 +10,7 @@ killall dunst
 # autostart
 # xss-lock -l -- betterlockscreen --lock dimblur &
 sxhkd &
-# picom --experimental-backends &
+picom --experimental-backends &
 dunst &
 feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
 
