@@ -15,7 +15,18 @@ dunst &
 feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
 
 # monitor
-bspc monitor -d I II III IV V VI VII VIII IX X
+read -r monitorList <<<"$(bspc query -M --names)"
+
+if [[ ${#monitorList[@]} == 1 ]]; then
+  bspc monitor -d I II III IV V VI VII VIII IX X
+elif [[ ${#monitorList[@]} == 2 ]]; then
+  bspc monitor ${monitorList[0]} -d I II III IV V
+  bspc monitor ${monitorList[1]} -d VI VII VIII IX X
+else
+  for monitor in $(bspc query -M); do
+    bspc monitor $monitor -d I II III IV V
+  done
+fi
 
 # window config
 bspc config border_width 1
@@ -28,11 +39,11 @@ bspc config borderless_monocle true
 bspc config gapless_monocle true
 
 # mouse config
+bspc config click_to_focus button1
 bspc config pointer_modifier mod1
 bspc config pointer_action1 resize_side
 bspc config pointer_action1 resize_corner
 bspc config pointer_action2 move
-bspc config click_to_focus button1
 bspc config focus_follows_pointer true
 bspc config pointer_follows_monitor true
 

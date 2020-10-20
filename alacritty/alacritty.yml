@@ -28,7 +28,7 @@ selection:
 # Colors (Ayu Dark)
 colors:
   primary:
-    background: '#0A0E14'
+    background: '#1f1f24'
     foreground: '#B3B1AD'
   normal:
     black: '#01060E'

@@ -8,7 +8,7 @@ export DE_CONFIGS_DIR="$(
   pwd -P
 )/../"
 
-export PATH="$DE_CONFIGS_DIR/bin:$PATH"
+export PATH="$DE_CONFIGS_DIR/bin:$DE_CONFIGS_DIR/rofi/scripts:$PATH"
 
 #
 # Environment variables
