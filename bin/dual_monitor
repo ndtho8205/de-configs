@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+#set -o errexit
+#set -o errtrace
+#set -o nounset
+#set -o pipefail
+
+TEMP_DIR=$(mktemp --directory --quiet)
+
+trap _clean EXIT
+
+main() {
+  mode='join'
+  _parse_params "$@"
+
+  case $mode in
+  join)
+    xrandr \
+      --output eDP1 --primary --auto \
+      --output DP1 --auto --right-of eDP1 --rotate normal \
+      --output DP2 --off \
+      --output DP3 --off \
+      --output VIRTUAL1 --off
+    ;;
+  join-rotate)
+    xrandr \
+      --output eDP1 --primary --auto \
+      --output DP1 --auto --right-of eDP1 --rotate left \
+      --output DP2 --off \
+      --output DP3 --off \
+      --output VIRTUAL1 --off
+    ;;
+  mirror)
+    xrandr \
+      --output eDP1 --primary --auto \
+      --output DP1 --auto \
+      --output DP2 --off \
+      --output DP3 --off \
+      --output VIRTUAL1 --off
+    ;;
+  single)
+    xrandr \
+      --output eDP1 --primary --auto \
+      --output DP1 --off \
+      --output DP2 --off \
+      --output DP3 --off \
+      --output VIRTUAL1 --off
+    ;;
+  *)
+    echo "error: unrecognized mode: $mode"
+    exit 1
+    ;;
+  esac
+
+  bspc wm -r
+}
+
+_print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Set up dual monitor.
+
+Options:
+  -h, --help     Show this help and exit
+  -m, --mode     Display modes: join, join-rotate, mirror, single.
+                 Default: join
+EOF
+}
+
+_parse_params() {
+  #if [[ $# -eq 0 ]]; then
+  #  echo "No arguments/options specified."
+  #  echo
+  #  _print_usage
+  #  exit 1
+  #fi
+
+  local param
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    -m | --mode)
+      mode="$1"
+      shift
+      ;;
+    -*)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+_clean() {
+  rm -rf "$TEMP_DIR"
+}
+
+main "$@"

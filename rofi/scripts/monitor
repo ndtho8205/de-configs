@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+main() {
+  selection=$(monitor_menu | rofi -p monitor -dmenu -i -lines 5)
+  echo "$selection"
+
+  case "$selection" in
+  *"landscape"*)
+    dual_monitor
+    ;;
+  *"portrait"*)
+    dual_monitor --mode join-rotate
+    ;;
+  *"Mirror"*)
+    dual_monitor --mode mirror
+    ;;
+  *"Single"*)
+    dual_monitor --mode single
+    ;;
+  esac
+}
+
+monitor_menu() {
+  echo -en "Join (landscape)\\0icon\\x1fdisplay-symbolic\\n"
+  echo -en "Join (portrait)\\0icon\\x1fdisplay-symbolic\\n"
+  echo -en "Mirror\\0icon\\x1fdisplay-symbolic\\n"
+  echo -en "Single\\0icon\\x1fdisplay-symbolic\\n"
+}
+
+main

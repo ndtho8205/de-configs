@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
-  selection=$(power_menu | rofi -p power -dmenu -i -lines 4)
+  selection=$(power_menu | rofi -p power -dmenu -i -lines 5)
 
   case "$selection" in
   *"Lock"*)

@@ -37,6 +37,10 @@ super + c
 super + q
   notify --all
 
+# set up multi-monitors
+super + p
+  monitor
+
 # screenshot
 {_,ctrl + ,shift + }@Print
   screenshot --{desktop,window,selection} --clipboard --notify

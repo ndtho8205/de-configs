@@ -2,31 +2,21 @@
 
 source "$HOME/.config/bspwm/init"
 
-# kill
-killall sxhkd
-killall picom
-killall dunst
-
-# autostart
-# xss-lock -l -- betterlockscreen --lock dimblur &
-sxhkd &
-picom --experimental-backends &
-dunst &
-feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
-
 # monitor
-read -r monitorList <<<"$(bspc query -M --names)"
+monitorList=($(bspc query -M --names))
 
 if [[ ${#monitorList[@]} == 1 ]]; then
-  bspc monitor -d I II III IV V VI VII VIII IX X
+  bspc monitor -d I II III IV V
 elif [[ ${#monitorList[@]} == 2 ]]; then
-  bspc monitor ${monitorList[0]} -d I II III IV V
-  bspc monitor ${monitorList[1]} -d VI VII VIII IX X
+  bspc monitor "${monitorList[1]}" -d I II III IV V
+  bspc monitor "${monitorList[2]}" -d VI VII VIII IX X
 else
   for monitor in $(bspc query -M); do
-    bspc monitor $monitor -d I II III IV V
+    bspc monitor "$monitor" -d I II III IV V
   done
 fi
+bspc config remove_unplugged_monitors true
+bspc config remove_disabled_monitors true
 
 # window config
 bspc config border_width 1
@@ -55,3 +45,17 @@ bspc config presel_feedback_color "#FFEE99"
 # rules
 bspc rule -a Lxappearance state=floating
 bspc rule -a zoom state=floating follow=on
+
+feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
+
+# kill
+killall sxhkd
+killall picom
+killall dunst
+while pgrep -x picom >/dev/null; do sleep 0.001; done
+
+# autostart
+# xss-lock -l -- betterlockscreen --lock dimblur &
+sxhkd &
+picom --experimental-backends &
+dunst &
