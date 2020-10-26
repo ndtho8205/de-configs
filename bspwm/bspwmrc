@@ -33,7 +33,7 @@ bspc config click_to_focus button1
 bspc config pointer_modifier mod1
 bspc config pointer_action1 resize_side
 bspc config pointer_action1 resize_corner
-bspc config pointer_action2 move
+bspc config pointer_action3 move
 bspc config focus_follows_pointer true
 bspc config pointer_follows_monitor true
 

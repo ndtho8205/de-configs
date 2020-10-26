@@ -49,6 +49,7 @@ if [ -d "$xinitdir" ]; then
 fi
 
 xsetroot -cursor_name left_ptr
+xrandr --dpi 144
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -56,5 +57,7 @@ export QT_IM_MODULE=ibus
 export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 ibus-daemon -rdx
+
+nordvpn c -g Double_VPN
 
 exec bspwm

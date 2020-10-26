@@ -1,4 +1,3 @@
-!Xft.dpi: 144
 Xft.hinting: true
 Xft.hintstyle: hintfull
 Xft.antialias: true
@@ -10,7 +9,10 @@ xterm*renderFont: true
 
 xterm.termName: xterm-256color
 xterm.vt100.locale: true
-xter.vt100.metaSendsEscape: true
+xterm.vt100.metaSendsEscape: true
+
+Xcursor.size: 16
+
 !
 ! Generated with :
 ! XRDB2Xreources.py

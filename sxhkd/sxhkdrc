@@ -39,7 +39,7 @@ super + q
 
 # set up multi-monitors
 super + p
-  monitor
+  multidisplay
 
 # screenshot
 {_,ctrl + ,shift + }@Print

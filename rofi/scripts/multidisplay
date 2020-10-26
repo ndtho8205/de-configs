@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
 
 main() {
-  selection=$(monitor_menu | rofi -p monitor -dmenu -i -lines 5)
+  selection=$(multidisplay_menu | rofi -p monitor -dmenu -i -lines 5)
   echo "$selection"
 
   case "$selection" in
   *"landscape"*)
-    dual_monitor
+    multidisplayctl --mode join-landscape
     ;;
   *"portrait"*)
-    dual_monitor --mode join-rotate
+    multidisplayctl --mode join-portrait
     ;;
-  *"Mirror"*)
-    dual_monitor --mode mirror
+  *"Duplicate"*)
+    multidisplayctl --mode duplicate
     ;;
   *"Single"*)
-    dual_monitor --mode single
+    multidisplayctl --mode single
     ;;
   esac
 }
 
-monitor_menu() {
+multidisplay_menu() {
   echo -en "Join (landscape)\\0icon\\x1fdisplay-symbolic\\n"
   echo -en "Join (portrait)\\0icon\\x1fdisplay-symbolic\\n"
-  echo -en "Mirror\\0icon\\x1fdisplay-symbolic\\n"
+  echo -en "Duplicate\\0icon\\x1fdisplay-symbolic\\n"
   echo -en "Single\\0icon\\x1fdisplay-symbolic\\n"
 }
 

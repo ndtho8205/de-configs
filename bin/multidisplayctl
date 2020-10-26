@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-#set -o errexit
-#set -o errtrace
-#set -o nounset
-#set -o pipefail
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
 
 TEMP_DIR=$(mktemp --directory --quiet)
 
@@ -14,32 +14,36 @@ main() {
   _parse_params "$@"
 
   case $mode in
-  join)
+  join-landscape)
     xrandr \
-      --output eDP1 --primary --auto \
+      --dpi 144 \
+      --output eDP1 --auto --primary \
       --output DP1 --auto --right-of eDP1 --rotate normal \
       --output DP2 --off \
       --output DP3 --off \
       --output VIRTUAL1 --off
     ;;
-  join-rotate)
+  join-portrait)
     xrandr \
-      --output eDP1 --primary --auto \
+      --dpi 144 \
+      --output eDP1 --auto --primary \
       --output DP1 --auto --right-of eDP1 --rotate left \
       --output DP2 --off \
       --output DP3 --off \
       --output VIRTUAL1 --off
     ;;
-  mirror)
+  duplicate)
     xrandr \
+      --dpi 144 \
       --output eDP1 --primary --auto \
-      --output DP1 --auto \
+      --output DP1 --auto --right-of eDP1 --rotate normal --same-as eDP1 \
       --output DP2 --off \
       --output DP3 --off \
       --output VIRTUAL1 --off
     ;;
   single)
     xrandr \
+      --dpi 144 \
       --output eDP1 --primary --auto \
       --output DP1 --off \
       --output DP2 --off \
@@ -63,8 +67,8 @@ Set up dual monitor.
 
 Options:
   -h, --help     Show this help and exit
-  -m, --mode     Display modes: join, join-rotate, mirror, single.
-                 Default: join
+  -m, --mode     Display modes: join-landscape, join-portrait, duplicate, single.
+                 Default: join-landscape
 EOF
 }
 
