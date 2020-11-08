@@ -58,6 +58,4 @@ export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 ibus-daemon -rdx
 
-nordvpn c -g Double_VPN
-
 exec bspwm

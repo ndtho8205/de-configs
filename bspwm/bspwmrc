@@ -59,3 +59,11 @@ while pgrep -x picom >/dev/null; do sleep 0.001; done
 sxhkd &
 picom --experimental-backends &
 dunst &
+
+vpn_status=$(nordvpn status | head -n 1 | awk -F ': ' '{print $2}')
+if [[ "$vpn_status" != "Connected" ]]; then
+  notify-send "NordVPN connecting..."
+  nordvpn c -g Double_VPN &
+else
+  notify-send "NordVPN is already connected!"
+fi
