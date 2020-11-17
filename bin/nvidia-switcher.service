@@ -1,0 +1,10 @@
+[Unit]
+Description=Nvidia Graphic Card Switcher
+After=sysinit.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=nvidia-switcher --off
+ExecStop=nvidia-switcher --on
+[Install]
+WantedBy=sysinit.target

@@ -1,0 +1,137 @@
+#!/usr/bin/bash
+
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
+
+main() {
+  action=''
+
+  _parse_params "$@"
+
+  if [[ $action == "on" ]]; then
+    _enable_gpu
+  else
+    _disable_gpu
+  fi
+}
+
+_print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Options:
+  --on           Enable GPU
+  --off          Disable GPU
+  -h, --help     Show this help and exit
+EOF
+}
+
+_parse_params() {
+  if [[ $# -eq 0 ]]; then
+    echo "No option specified."
+    echo
+    _print_usage
+    exit 1
+  fi
+
+  local param
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    --on)
+      action=on
+      ;;
+    --off)
+      action=off
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+_enable_gpu() {
+  echo '\\_SB.PCI0.PEG0.PEGP._ON' >/proc/acpi/call
+
+  # remove NVIDIA card (currently in power/control = auto)
+  echo -n 1 >/sys/bus/pci/devices/0000:01:00.0/remove
+  sleep 1
+
+  # change PCIe power control
+  echo -n on >/sys/bus/pci/devices/0000:00:01.0/power/control
+  sleep 1
+
+  # rescan for NVIDIA card (defaults to power/control = on)
+  echo -n 1 >/sys/bus/pci/rescan
+  #if [ -x "$(command -v nvidia-smi)" ]; then
+  #  printf "\n"
+  #  nvidia-smi
+  #fi
+
+  printf "\nNVIDIA CARD IS NOW ENABLED.\n"
+}
+
+_disable_gpu() {
+  modprobe -r nvidia_drm
+  modprobe -r nvidia_uvm
+  modprobe -r nvidia_modeset
+  modprobe -r nvidia
+
+  #echo 1 >/sys/bus/pci/devices/0000:01:00.0/remove
+
+  # change NVIDIA card power control
+  #echo -n auto >/sys/bus/pci/devices/0000:01:00.0/power/control
+  sleep 1
+
+  # change PCIe power control
+  #echo -n auto >/sys/bus/pci/devices/0000:00:01.0/power/control
+  sleep 1
+
+  #
+  echo '\\_SB.PCI0.PEG0.PEGP._OFF' >/proc/acpi/call
+}
+
+_send_notification() {
+  local appname notification_id notification_icon volume
+
+  appname=$(basename "$0")
+  notification_id=$(cksum <<<"$(basename "$0")" | cut -f 1 -d ' ')
+  volume=$(_get_volume)
+
+  case $action in
+  +)
+    notification_icon=ﱛ
+    ;;
+  -)
+    notification_icon=ﱜ
+    ;;
+  -1)
+    notification_icon=婢
+    ;;
+  *)
+    notification_icon=墳
+    ;;
+  esac
+
+  dunstify \
+    --appname="$appname" \
+    --urgency="low" \
+    --icon="$notification_icon" \
+    --replace="$notification_id" \
+    -- \
+    "Volume" \
+    "$volume"
+}
+
+main "$@"
