@@ -26,8 +26,12 @@ super + Escape
 #     Application Hotkeys       #
 #################################
 
-super + c
+super + n
   $DE_BROWSER
+
+super + c
+  google-chrome-stable
+
 
 #################################
 #        System Hotkeys         #

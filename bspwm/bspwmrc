@@ -49,9 +49,9 @@ bspc rule -a zoom state=floating follow=on
 feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
 
 # kill
-killall sxhkd
-killall picom
-killall dunst
+killall --quiet sxhkd
+killall --quiet picom
+killall --quiet dunst
 while pgrep -x picom >/dev/null; do sleep 0.001; done
 
 # autostart
@@ -63,7 +63,7 @@ dunst &
 vpn_status=$(nordvpn status | head -n 1 | awk -F ': ' '{print $2}')
 if [[ "$vpn_status" != "Connected" ]]; then
   notify-send "NordVPN connecting..."
-  nordvpn c -g Double_VPN &
+  (sleep 30 && nordvpn c -g Double_VPN) &
 else
   notify-send "NordVPN is already connected!"
 fi
