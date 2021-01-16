@@ -60,7 +60,7 @@ sxhkd &
 picom --experimental-backends &
 dunst &
 
-vpn_status=$(nordvpn status | head -n 1 | awk -F ': ' '{print $2}')
+vpn_status=$(nordvpn status | grep "Status" | awk -F ': ' '{print $2}')
 if [[ "$vpn_status" != "Connected" ]]; then
   notify-send "NordVPN connecting..."
   (sleep 30 && nordvpn c -g Double_VPN) &

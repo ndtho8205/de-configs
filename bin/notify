@@ -10,7 +10,7 @@ main() {
 
   _parse_params "$@"
 
-  read -r vpn <<<"$(nordvpn status)"
+  read -r vpn <<<"$(nordvpn status | grep 'Status')"
   vpn=$(echo "$vpn" | awk -F ': ' '{print $2}')
 
   battery=$(batteryctl --stdout)

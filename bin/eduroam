@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o errtrace
+set -o nounset
+set -o pipefail
+
+WIFI_DEVICE="wlp59s0"
+USERNAME="nb20501"
+DOMAIN="sic.shibaura-it.ac.jp"
+
+main() {
+  nmcli connection add \
+    type wifi con-name "eduroam" ifname "$WIFI_DEVICE" ssid "eduroam" -- \
+    wifi-sec.key-mgmt wpa-eap \
+    802-1x.eap peap \
+    802-1x.phase2-auth mschapv2 \
+    802-1x.domain-suffix-match "$DOMAIN" \
+    802-1x.identity "$USERNAME"
+}
+
+_print_usage() {
+  cat <<EOF
+usage: $(basename "$0") [OPTION]
+
+Options:
+  -h, --help     Show this help and exit
+EOF
+}
+
+_parse_params() {
+  if [[ $# -eq 0 ]]; then
+    echo "No option specified."
+    echo
+    _print_usage
+    exit 1
+  fi
+
+  local param
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+
+main
