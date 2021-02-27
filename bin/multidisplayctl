@@ -16,7 +16,7 @@ main() {
   case $mode in
   join-landscape)
     xrandr \
-      --dpi 144 \
+      --dpi 141 \
       --output eDP-1 --auto --primary \
       --output DP-1 --auto --right-of eDP-1 --rotate normal \
       --output DP-2 --off \
@@ -24,7 +24,7 @@ main() {
     ;;
   join-portrait)
     xrandr \
-      --dpi 144 \
+      --dpi 141 \
       --output eDP-1 --auto --primary \
       --output DP-1 --auto --right-of eDP-1 --rotate left \
       --output DP-2 --off \
@@ -32,7 +32,7 @@ main() {
     ;;
   duplicate)
     xrandr \
-      --dpi 144 \
+      --dpi 141 \
       --output eDP-1 --primary --auto \
       --output DP-1 --auto --right-of eDP-1 --rotate normal --same-as eDP-1 \
       --output DP-2 --off \
@@ -40,7 +40,7 @@ main() {
     ;;
   single)
     xrandr \
-      --dpi 144 \
+      --dpi 141 \
       --output eDP-1 --primary --auto \
       --output DP-1 --off \
       --output DP-2 --off \

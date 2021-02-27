@@ -87,13 +87,13 @@ _send_notification() {
 
   case $action in
   inc)
-    notification_icon=
+    notification_icon="display-brightness-high-symbolic"
     ;;
   dec)
-    notification_icon=
+    notification_icon="display-brightness-medium-symbolic"
     ;;
   *)
-    notification_icon=
+    notification_icon="display-brightness-off-symbolic"
     ;;
   esac
 
@@ -102,8 +102,8 @@ _send_notification() {
     --urgency="low" \
     --icon="$notification_icon" \
     --replace="$notification_id" \
-    "Brightness" \
-    "$(_get_brightness)"
+    --hints="int:value:$(_get_brightness)" \
+    "Brightness"
 }
 
 main "$@"

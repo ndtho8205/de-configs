@@ -90,7 +90,7 @@ _get_volume() {
 
   mute=$(echo "$amixer_info" | awk -F'[][]' '{print $4}')
   if [[ $mute == "off" ]]; then
-    echo -1
+    echo 0
     return
   fi
 
@@ -108,16 +108,16 @@ _send_notification() {
 
   case $action in
   +)
-    notification_icon=ﱛ
+    notification_icon="audio-volume-high-symbolic"
     ;;
   -)
-    notification_icon=ﱜ
+    notification_icon="audio-volume-medium-symbolic"
     ;;
-  -1)
-    notification_icon=婢
+  mute)
+    notification_icon="audio-volume-muted-symbolic"
     ;;
   *)
-    notification_icon=墳
+    notification_icon=""
     ;;
   esac
 
@@ -126,9 +126,9 @@ _send_notification() {
     --urgency="low" \
     --icon="$notification_icon" \
     --replace="$notification_id" \
+    --hints="int:value:$volume" \
     -- \
-    "Volume" \
-    "$volume"
+    "Volume"
 }
 
 main "$@"
