@@ -5,8 +5,7 @@ main() {
 
   case "$selection" in
   *"Lock"*)
-    # TODO: use light-locker
-    dm-tool lock
+    betterlockscreen -l dim
     ;;
   *"Log"*)
     loginctl terminate-session "$XDG_SESSION_ID"
