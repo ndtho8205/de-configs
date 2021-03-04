@@ -87,13 +87,13 @@
   frame_color = "#A7F3D0"
   foreground = "#065F46"
   background = "#ECFDF5"
-  timeout = 10
+  timeout = 20
 
 [urgency_critical]
   icon = "dialog-error"
   frame_color = "#FECACA"
   foreground = "#991B1B"
-  background = "#FEF2F2"
+  background = "#FEE2E2"
   timeout = 0
 
 [brightness_volume_ctl]
