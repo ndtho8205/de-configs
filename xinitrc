@@ -48,8 +48,10 @@ if [ -d "$xinitdir" ]; then
   done
 fi
 
+/usr/bin/prime-offload
+
 xsetroot -cursor_name left_ptr
-xrandr --dpi 144
+xrandr --dpi 141
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -58,4 +60,7 @@ export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 ibus-daemon -rdx
 
-exec bspwm
+
+bspwm
+
+sudo /usr/bin/prime-switch

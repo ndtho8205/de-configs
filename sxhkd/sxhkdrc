@@ -108,9 +108,9 @@ super + shift + {1-9,0}
 super + {Left,Down,Up,Right}
   bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# swap the current node and the biggest node
+# swap the current node and the biggest node in the same desktop
 super + g
-  bspc node -s biggest
+  bspc node -s biggest.local
 
 # move the current node to a pre-selected space
 super + m
