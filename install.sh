@@ -130,6 +130,7 @@ install_configs() {
   make_link "$DE_CONFIGS/htop" "$HOME/.config/htop"
 
   make_link "$DE_CONFIGS/betterlockscreen/betterlockscreenrc" "$HOME/.config/betterlockscreenrc"
+  make_link "$DE_CONFIGS/libinput-gestures/libinput-gestures.conf" "$HOME/.config/libinput-gestures.conf"
 }
 
 install_configs
