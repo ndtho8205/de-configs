@@ -93,8 +93,8 @@ super + {_,shift + } + grave
   bspc {node,desktop} -f last
 
 # focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
-  bspc node -{f,s} {west,south,north,east}
+super + {h,j,k,l}
+  bspc node -f {west,south,north,east}
 
 #
 # Moving
@@ -107,6 +107,10 @@ super + shift + {1-9,0}
 # move a floating window
 super + {Left,Down,Up,Right}
   bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# move the current node to the given direction
+super + shift + {h,j,k,l}
+  bspc node -s {west,south,north,east}
 
 # swap the current node and the biggest node in the same desktop
 super + g
@@ -136,6 +140,17 @@ super + alt + shift + {h,j,k,l}
 super + ctrl + {h,j,k,l}
   bspc node -p {west,south,north,east}
 
+# preselect the ratio
+super + ctrl + {1-9}
+  bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+  bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+  bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 
 
@@ -173,21 +188,3 @@ super + {o,i}
   bspc wm -h off; \
   bspc node {older,newer} -f; \
   bspc wm -h on
-
-
-#
-# preselect
-#
-
-
-# preselect the ratio
-super + ctrl + {1-9}
-  bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + space
-  bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-  bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
