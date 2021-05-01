@@ -5,13 +5,14 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-WIFI_DEVICE="wlp59s0"
-USERNAME="nb20501"
-DOMAIN="sic.shibaura-it.ac.jp"
+readonly WIFI_DEVICE="wlp59s0"
+readonly WIFI_NAME="SRAS5G"
+readonly USERNAME="nb20501"
+readonly DOMAIN="sic.shibaura-it.ac.jp"
 
 main() {
   nmcli connection add \
-    type wifi con-name "eduroam" ifname "$WIFI_DEVICE" ssid "eduroam" -- \
+    type wifi con-name "$WIFI_NAME" ifname "$WIFI_DEVICE" ssid "$WIFI_NAME" -- \
     wifi-sec.key-mgmt wpa-eap \
     802-1x.eap peap \
     802-1x.phase2-auth mschapv2 \

@@ -49,10 +49,10 @@ bspc rule -a zoom state=floating follow=on
 feh --recursive --randomize --bg-fill "$DE_WALLPAPERS" &
 
 # kill
-killall --quiet sxhkd
-killall --quiet picom
-killall --quiet dunst
-while pgrep -x picom >/dev/null; do sleep 0.001; done
+pkill dunst
+pkill picom
+pkill sxhkd
+while pgrep -x picom >/dev/null; do sleep 0.01; done
 
 # autostart
 # xss-lock -l -- betterlockscreen --lock dimblur &
@@ -60,10 +60,13 @@ sxhkd &
 picom --experimental-backends &
 dunst &
 
-vpn_status=$(nordvpn status | grep "Status" | awk -F ': ' '{print $2}')
-if [[ "$vpn_status" != "Connected" ]]; then
-  notify-send "NordVPN connecting..."
-  (sleep 30 && nordvpn c -g Double_VPN) &
-else
-  notify-send "NordVPN is already connected!"
+if type nordvpn >/dev/null 2>&1; then
+  vpn_status=$(nordvpn status | grep "Status" | awk -F ': ' '{print $2}')
+
+  if [[ "$vpn_status" != "Connected" ]]; then
+    notify-send "NordVPN is connecting..."
+    (sleep 30 && nordvpn c Double_VPN) &
+  else
+    notify-send "NordVPN is already connected!"
+  fi
 fi

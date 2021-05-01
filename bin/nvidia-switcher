@@ -88,7 +88,7 @@ _disable_gpu() {
   modprobe -r nvidia_modeset
   modprobe -r nvidia
 
-  #echo 1 >/sys/bus/pci/devices/0000:01:00.0/remove
+  echo 1 >/sys/bus/pci/devices/0000:01:00.0/remove
 
   # change NVIDIA card power control
   #echo -n auto >/sys/bus/pci/devices/0000:01:00.0/power/control

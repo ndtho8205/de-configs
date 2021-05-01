@@ -80,6 +80,10 @@ super + {_,shift + }w
 super + {t,shift + t,s,f}
   bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
+# alternate between the tiled and monocle layout
+super + m
+  bspc desktop -l next
+
 #
 # Focusing
 #
@@ -113,11 +117,11 @@ super + shift + {h,j,k,l}
   bspc node -s {west,south,north,east}
 
 # swap the current node and the biggest node in the same desktop
-super + g
+super + shift + g
   bspc node -s biggest.local
 
 # move the current node to a pre-selected space
-super + m
+super + shift + s
   bspc node -n last.!automatic
 
 #
@@ -157,9 +161,6 @@ super + ctrl + shift + space
 
 
 
-# alternate between the tiled and monocle layout
-super + _
-  bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
 super + y
