@@ -60,6 +60,7 @@ export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 ibus-daemon -rdx
 
+ibus engine xkb:us::eng
 
 bspwm
 
