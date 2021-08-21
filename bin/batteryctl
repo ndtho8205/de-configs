@@ -66,7 +66,7 @@ _parse_params() {
 _get_battery_info() {
   local battery_info percentage charge_status time_remaining
 
-  battery_info=$(acpi -b | sed 's/,//g')
+  battery_info=$(acpi -b | head -n 1 | sed 's/,//g')
   percentage=$(echo "$battery_info" | awk '{print $4}')
   charge_status=$(echo "$battery_info" | awk '{print $3}')
   time_remaining=$(echo "$battery_info" | awk '{print $5}')
