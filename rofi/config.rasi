@@ -1,9 +1,14 @@
 configuration {
-  show-icons: true;
   font: "JetBrainsMono Nerd Font 11";
+  show-icons: true;
   hide-scrollbar: true;
-  fullscreen: true;
-	theme: "dark";
+	theme: "nord";
+
+  display-ssh     : "";
+  display-run     : "";
+  display-drun    : "";
+  display-window  : "";
+  display-combi   : "";
 }
 
 /* vim:ft=css
