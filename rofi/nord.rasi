@@ -34,7 +34,6 @@ window {
   y-offset: -150;
   padding: 0px;
   border: 0px;
-  border-radius: 6px;
   width: 720;
 
   background-color: @transparent;
@@ -62,7 +61,6 @@ inputbar {
   background-color: #3b4252;
 
   border: 3px 3px 1px 3px;
-  border-radius: 6px 6px 0px 0px;
   border-color: @nord10;
 }
 
@@ -80,18 +78,16 @@ case-indicator {
 
 listview {
   padding: 8px;
-  border-radius: 0px 0px 6px 6px;
   border-color: @nord10;
   border: 0px 3px 3px 3px;
   background-color: rgba(46,52,64,0.9);
   lines: 8;
-  fixed-height: false;
+  fixed-height: true;
 }
 
 element {
   padding: 6px 3px;
   vertical-align: 0.5;
-  border-radius: 4px;
   background-color: transparent;
   color: @foreground;
   text-color: rgb(216, 222, 233);
@@ -122,7 +118,6 @@ button {
   horizontal-align: 0.5;
 
   border: 2px 0px 2px 2px;
-  border-radius: 4px 0px 0px 4px;
   border-color: @foreground;
 }
 
