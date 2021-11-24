@@ -42,7 +42,7 @@
   icon_position = left
   min_icon_size = 32
   max_icon_size = 32
-  icon_path = /usr/share/icons/Suru++/status/32/:/usr/share/icons/Suru++/status/symbolic/:/usr/share/icons/Suru++/devices/32/:/usr/share/icons/Suru++/actions/24/
+  icon_path = /home/ndtho8205/.local/share/icons/candy-icons-master/apps/scalable/:/usr/share/icons/Suru++/status/32/:/usr/share/icons/Suru++/status/48:/usr/share/icons/Suru++/status/symbolic/:/usr/share/icons/Suru++/devices/32/:/usr/share/icons/Suru++/actions/24/
 
 ### History ###
   sticky_history = yes

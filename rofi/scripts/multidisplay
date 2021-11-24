@@ -21,10 +21,10 @@ main() {
 }
 
 multidisplay_menu() {
-  echo -en "Join (landscape)\\0icon\\x1fdisplay-symbolic\\n"
-  echo -en "Join (portrait)\\0icon\\x1fdisplay-symbolic\\n"
-  echo -en "Duplicate\\0icon\\x1fdisplay-symbolic\\n"
-  echo -en "Single\\0icon\\x1fdisplay-symbolic\\n"
+  echo -en "Join (landscape)\\0icon\\x1fpreferences-desktop-display\\n"
+  echo -en "Join (portrait)\\0icon\\x1fpreferences-desktop-display\\n"
+  echo -en "Duplicate\\0icon\\x1fpreferences-desktop-display\\n"
+  echo -en "Single\\0icon\\x1fpreferences-desktop-display\\n"
 }
 
 main

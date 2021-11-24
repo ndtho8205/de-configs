@@ -23,11 +23,11 @@ main() {
 }
 
 power_menu() {
-  echo -en "Lock screen\\0icon\\x1fsystem-lock-screen-symbolic\\n"
-  echo -en "Log out\\0icon\\x1fsystem-log-out-symbolic\\n"
-  echo -en "Suspend\\0icon\\x1fsystem-suspend-symbolic\\n"
-  echo -en "Reboot\\0icon\\x1fsystem-reboot-symbolic\\n"
-  echo -en "Shutdown\\0icon\\x1fsystem-shutdown-symbolic\\n"
+  echo -en "Lock screen\\0icon\\x1fsystem-lock-screen\\n"
+  echo -en "Log out\\0icon\\x1fsystem-log-out\\n"
+  echo -en "Suspend\\0icon\\x1fsystem-suspend\\n"
+  echo -en "Reboot\\0icon\\x1fsystem-reboot\\n"
+  echo -en "Shutdown\\0icon\\x1fsystem-shutdown\\n"
 }
 
 main
