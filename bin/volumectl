@@ -10,11 +10,17 @@ main() {
 
   _parse_params "$@"
 
-  if [[ $action == "mute" ]]; then
-    amixer -q sset Master toggle
-  elif [[ -n $action ]]; then
-    amixer --quiet sset Master 5%$action unmute
-  fi
+  case $action in
+  inc)
+    pamixer --unmute --increase 5
+    ;;
+  dec)
+    pamixer --decrease 5
+    ;;
+  toggle-mute)
+    pamixer --toggle-mute
+    ;;
+  esac
 
   if [[ $notify == "true" ]]; then
     _send_notification
@@ -56,13 +62,13 @@ _parse_params() {
 
     case $param in
     --inc)
-      action=+
+      action="inc"
       ;;
     --dec)
-      action=-
+      action="dec"
       ;;
     --toggle-mute)
-      action=mute
+      action="toggle-mute"
       ;;
     --notify)
       notify=true
@@ -83,20 +89,30 @@ _parse_params() {
 }
 
 _get_volume() {
-  local mute volume
-  local amixer_info
+  local volume
 
-  amixer_info=$(amixer get Master | tail -1)
-
-  mute=$(echo "$amixer_info" | awk -F'[][]' '{print $4}')
-  if [[ $mute == "off" ]]; then
-    echo 0
+  if pamixer --get-mute 1>/dev/null 2>&1; then
+    echo "muted"
     return
   fi
 
-  volume=$(echo "$amixer_info" | awk -F'[][]' '{print $2}')
+  if ! pamixer --get-volume 1>/dev/null 2>&1; then
+    echo "0"
+    return
+  else
+    volume=$(pamixer --get-volume)
+    echo "$volume"
+  fi
+}
 
-  echo "$volume"
+_get_icon_by_volume() {
+  local -r volume=$(_get_volume)
+
+  if [[ "$volume" == "muted" ]]; then
+    echo "audio-volume-muted"
+  else
+    echo "audio-volume-high"
+  fi
 }
 
 _send_notification() {
@@ -107,17 +123,14 @@ _send_notification() {
   volume=$(_get_volume)
 
   case $action in
-  +)
-    notification_icon="audio-volume-high-symbolic"
+  inc)
+    notification_icon="audio-volume-high"
     ;;
-  -)
-    notification_icon="audio-volume-medium-symbolic"
-    ;;
-  mute)
-    notification_icon="audio-volume-muted-symbolic"
+  dec)
+    notification_icon="audio-volume-medium"
     ;;
   *)
-    notification_icon=""
+    notification_icon=$(_get_icon_by_volume)
     ;;
   esac
 
