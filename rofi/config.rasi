@@ -2,7 +2,6 @@ configuration {
   font: "JetBrainsMono Nerd Font 11";
   show-icons: true;
   hide-scrollbar: true;
-	theme: "nord";
 
   display-ssh     : "";
   display-run     : "";
@@ -10,5 +9,7 @@ configuration {
   display-window  : "";
   display-combi   : "";
 }
+
+@theme "nord"
 
 /* vim:ft=css
