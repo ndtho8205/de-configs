@@ -126,6 +126,7 @@ install_configs() {
 
   make_link "$DE_CONFIGS/xinitrc" "$HOME/.xinitrc"
   make_link "$DE_CONFIGS/Xresources" "$HOME/.Xresources"
+  make_link "$DE_CONFIGS/fontconfig" "$HOME/.config/fontconfig"
   make_link "$DE_CONFIGS/htop" "$HOME/.config/htop"
 
   make_link "$DE_CONFIGS/betterlockscreen/betterlockscreenrc" "$HOME/.config/betterlockscreenrc"

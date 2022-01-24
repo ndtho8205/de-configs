@@ -15,7 +15,7 @@ export PATH="$DE_CONFIGS_DIR/bin:$DE_CONFIGS_DIR/rofi/scripts:$PATH"
 #
 
 export DE_TERM_EMULATOR="alacritty"
-export TERMINAL="alacritty"
+export TERMINAL="kitty"
 export DE_BROWSER="firefox-developer-edition"
 
 export DE_WALLPAPERS="$DE_CONFIGS_DIR/wallpapers"
