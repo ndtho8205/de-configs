@@ -18,9 +18,9 @@ main() {
     xrandr \
       --dpi 141 \
       --output eDP-1 --auto --primary \
-      --output DP-1 --auto --right-of eDP-1 --rotate normal \
+      --output DP-3 --auto --right-of eDP-1 --rotate normal \
       --output DP-2 --off \
-      --output DP-3 --off
+      --output DP-1 --off
     ;;
   join-portrait)
     xrandr \

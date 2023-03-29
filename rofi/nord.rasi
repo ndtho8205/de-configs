@@ -61,6 +61,7 @@ inputbar {
   background-color: #3b4252;
 
   border: 3px 3px 1px 3px;
+  border-radius: 15px 15px 0px 0px;
   border-color: @nord10;
 }
 
@@ -80,6 +81,7 @@ listview {
   padding: 8px;
   border-color: @nord10;
   border: 0px 3px 3px 3px;
+  border-radius: 0px 0px 15px 15px;
   background-color: rgba(46,52,64,0.9);
   lines: 8;
   fixed-height: true;

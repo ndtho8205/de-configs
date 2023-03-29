@@ -91,7 +91,7 @@ _parse_params() {
 _get_volume() {
   local volume
 
-  if pamixer --get-mute 1>/dev/null 2>&1; then
+  if [[ $(pamixer --get-mute) == "true" ]]; then
     echo "muted"
     return
   fi
